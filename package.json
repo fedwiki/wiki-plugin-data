@@ -1,8 +1,8 @@
 {
-	"name":	"wiki-plugin-data",
-	"version":	"0.1.0",
-	"description": "Federated Wiki - Data Plug-in",
-	"keywords":	[
+  "name": "wiki-plugin-data",
+  "version": "0.1.1",
+  "description": "Federated Wiki - Data Plug-in",
+  "keywords": [
     "wiki",
     "federated wiki",
     "plugin"
