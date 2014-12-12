@@ -97,12 +97,12 @@
       "text": "The format of the large bold summary gives an indication of the shape and size of the dataset."
     },
     {
-      "type": "paragraph",
+      "type": "html",
       "id": "97781e781985e869",
       "text": "<b>Num x Num</b> summarizes a table of rows x columns."
     },
     {
-      "type": "paragraph",
+      "type": "html",
       "id": "338d4bf85119e03a",
       "text": "<b>Num / Num</b> summarizes a graph with nodes / arcs."
     },
@@ -112,9 +112,9 @@
       "text": "Double-click on the large bold readout to examine the data item in its native json format."
     },
     {
-      "type": "paragraph",
+      "type": "html",
       "id": "c7bb43a22f937a5a",
-      "text": "<h3> Scrubbing"
+      "text": "<h3>Scrubbing</h3>"
     },
     {
       "type": "paragraph",
@@ -137,9 +137,9 @@
       "text": "Refreshing a page will restore the display to the initial summary."
     },
     {
-      "type": "paragraph",
+      "type": "html",
       "id": "073586b4c98d80c4",
-      "text": "<h3> Importing Data"
+      "text": "<h3>Importing Data</h3>"
     },
     {
       "type": "paragraph",
@@ -930,6 +930,77 @@
         "text": "See [https://github.com/fedwiki/wiki-plugin-data GitHub] for plugin source."
       },
       "date": 1389107212374
+    },
+    {
+      "type": "edit",
+      "id": "97781e781985e869",
+      "item": {
+        "type": "html",
+        "id": "97781e781985e869",
+        "text": "<b>Num x Num</b> summarizes a table of rows x columns."
+      },
+      "date": 1418314574228
+    },
+    {
+      "type": "edit",
+      "id": "338d4bf85119e03a",
+      "item": {
+        "type": "html",
+        "id": "338d4bf85119e03a",
+        "text": "<b>Num / Num</b> summarizes a graph with nodes / arcs."
+      },
+      "date": 1418314575996
+    },
+    {
+      "type": "edit",
+      "id": "c7bb43a22f937a5a",
+      "item": {
+        "type": "html",
+        "id": "c7bb43a22f937a5a",
+        "text": "<h3> Scrubbing"
+      },
+      "date": 1418314582259
+    },
+    {
+      "type": "edit",
+      "id": "c7bb43a22f937a5a",
+      "item": {
+        "type": "html",
+        "id": "c7bb43a22f937a5a",
+        "text": "<h3>Scrubbing</h3>"
+      },
+      "date": 1418314593315
+    },
+    {
+      "type": "edit",
+      "id": "073586b4c98d80c4",
+      "item": {
+        "type": "paragraph",
+        "id": "073586b4c98d80c4",
+        "text": "<h3>Importing Data</h3>"
+      },
+      "date": 1418314606202
+    },
+    {
+      "type": "edit",
+      "id": "073586b4c98d80c4",
+      "item": {
+        "type": "html",
+        "id": "073586b4c98d80c4",
+        "text": "<h3>Importing Data</h3>"
+      },
+      "date": 1418314608707
+    },
+    {
+      "type": "edit",
+      "id": "073586b4c98d80c4",
+      "item": {
+        "type": "html",
+        "id": "073586b4c98d80c4",
+        "text": "<h3>Importing Data</h3>"
+      },
+      "date": 1418314608709
     }
-  ]
+  ],
+  "plugin": "data"
 }
