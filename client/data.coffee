@@ -1,3 +1,10 @@
+###
+ * Federated Wiki : Data Plugin
+ *
+ * Licensed under the MIT license.
+ * https://github.com/fedwiki/wiki-plugin-data/blob/master/LICENSE.txt
+###
+
 # lots of cases, ward will try these
 # http://nmsi.localhost:1111/view/cotton-in-the-field/view/tier-1-material-summary/cotton.localhost:1111/talk-about-wool/view/cotton-fabric
 
