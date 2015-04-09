@@ -16,7 +16,11 @@ window.plugins.data =
     lastThumb = null
     div.find('.readout')
       .mousemove (e) ->
-        thumb = thumbs(item)[Math.floor(thumbs(item).length * e.offsetX / e.target.offsetWidth)]
+        if (e.offsetX == undefined)
+          offset = e.pageX - $(this).offset().left
+        else
+          offset = e.offsetX
+        thumb = thumbs(item)[Math.floor(thumbs(item).length * offset / e.target.offsetWidth)]
         return if thumb == lastThumb || null == (lastThumb = thumb)
         refresh thumb
         $(div).trigger('thumb', thumb)
