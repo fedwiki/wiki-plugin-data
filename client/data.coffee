@@ -15,7 +15,7 @@ window.plugins.data =
   bind: (div, item) ->
     lastThumb = null
     div.find('.readout')
-      .mousemove (e) ->
+      .on 'mousemove', (e) ->
         if (e.offsetX == undefined)
           offset = e.pageX - $(this).offset().left
         else
@@ -24,10 +24,10 @@ window.plugins.data =
         return if thumb == lastThumb || null == (lastThumb = thumb)
         refresh thumb
         $(div).trigger('thumb', thumb)
-      .dblclick (e) ->
+      .on 'dblclick', (e) ->
         wiki.dialog "JSON for #{item.text}",  $('<pre/>').text(JSON.stringify(item, null, 2))
     div.find('.label')
-      .dblclick ->
+      .on 'dblclick', () ->
         wiki.textEditor div, item
     $(".main").on 'thumb', (evt, thumb) ->
       refresh thumb unless thumb == lastThumb || -1 == (thumbs(item).indexOf thumb)
