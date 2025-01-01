@@ -1,75 +1,102 @@
-###
+/*
  * Federated Wiki : Data Plugin
  *
  * Licensed under the MIT license.
  * https://github.com/fedwiki/wiki-plugin-data/blob/master/LICENSE.txt
-###
+ */
 
-# lots of cases, ward will try these
-# http://nmsi.localhost:1111/view/cotton-in-the-field/view/tier-1-material-summary/cotton.localhost:1111/talk-about-wool/view/cotton-fabric
+// lots of cases, ward will try these
+// http://nmsi.localhost:1111/view/cotton-in-the-field/view/tier-1-material-summary/cotton.localhost:1111/talk-about-wool/view/cotton-fabric
 
-window.plugins.data =
-  emit: (div, item) ->
+window.plugins.data = {
+  emit: (div, item) => {
     $('<p />').addClass('readout').appendTo(div).text(summary(item))
-    $('<p />').addClass('label').appendTo(div).html(wiki.resolveLinks(item.text||'data'))
-  bind: (div, item) ->
-    lastThumb = null
-    div.find('.readout')
-      .on 'mousemove', (e) ->
-        if (e.offsetX == undefined)
-          offset = e.pageX - $(this).offset().left
-        else
-          offset = e.offsetX
-        thumb = thumbs(item)[Math.floor(thumbs(item).length * offset / e.target.offsetWidth)]
-        return if thumb == lastThumb || null == (lastThumb = thumb)
-        refresh thumb
+    $('<p />')
+      .addClass('label')
+      .appendTo(div)
+      .html(wiki.resolveLinks(item.text || 'data'))
+  },
+
+  bind: (div, item) => {
+    let lastThumb = null
+    div
+      .find('.readout')
+      .on('mousemove', e => {
+        const offset = e.offsetX ?? e.pageX - $(this).offset().left
+        const thumb = thumbs(item)[Math.floor((thumbs(item).length * offset) / e.target.offsetWidth)]
+        if (thumb === lastThumb || (lastThumb = thumb) === null) return
+        refresh(thumb)
         $(div).trigger('thumb', thumb)
-      .on 'dblclick', (e) ->
-        wiki.dialog "JSON for #{item.text}",  $('<pre/>').text(JSON.stringify(item, null, 2))
-    div.find('.label')
-      .on 'dblclick', () ->
-        wiki.textEditor div, item
-    $(".main").on 'thumb', (evt, thumb) ->
-      refresh thumb unless thumb == lastThumb || -1 == (thumbs(item).indexOf thumb)
+      })
+      .on('dblclick', () => {
+        wiki.dialog(`JSON for ${item.text}`, $('<pre/>').text(JSON.stringify(item, null, 2)))
+      })
+    div.find('.label').on('dblclick', () => {
+      wiki.textEditor(div, item)
+    })
+    $('.main').on('thumb', (evt, thumb) => {
+      if (thumb !== lastThumb && thumbs(item).indexOf(thumb) !== -1) {
+        refresh(thumb)
+      }
+    })
 
-    value = (obj) ->
-      return NaN unless obj?
-      switch obj.constructor
-        when Number then obj
-        when String then +obj
-        when Array then value(obj[0])
-        when Object then value(obj.value)
-        when Function then obj()
-        else NaN
+    const value = obj => {
+      if (obj == null) return NaN
+      switch (obj.constructor) {
+        case Number:
+          return obj
+        case String:
+          return +obj
+        case Array:
+          return value(obj[0])
+        case Object:
+          return value(obj.value)
+        case Function:
+          return obj()
+        default:
+          return NaN
+      }
+    }
 
-    average = (thumb) ->
-      values = _.map(item.data, (obj) -> value(obj[thumb]))
-      values = _.reject(values, (obj) -> isNaN obj)
-      result = _.reduce(values, ((m,n) -> m+n), 0) / values.length
-      result.toFixed 2
+    const average = thumb => {
+      const values = item.data.map(obj => value(obj[thumb])).filter(obj => !isNaN(obj))
+      const result = values.reduce((m, n) => m + n, 0) / values.length
+      return result.toFixed(2)
+    }
 
-    readout = (thumb) ->
-      return average(thumb) if item.columns?
-      return summary(item) unless item.data.object?
-      field = item.data[thumb]
-      return "#{field.value}" if field.value?
-      return "#{field.toFixed 2}" if field.constructor == Number
-      NaN
+    const readout = thumb => {
+      if (item.columns) return average(thumb)
+      if (!item.data.object) return summary(item)
+      const field = item.data[thumb]
+      if (field.value) return `${field.value}`
+      if (field.constructor === Number) return `${field.toFixed(2)}`
+      return NaN
+    }
 
-    label = (thumb) ->
-      return "Averaged:<br>#{thumb}" if item.columns? && item.data.length > 1
-      thumb
+    const label = thumb => {
+      if (item.columns && item.data.length > 1) return `Averaged:<br>${thumb}`
+      return thumb
+    }
 
-    refresh = (thumb) ->
-      div.find('.readout').text readout(thumb)
-      div.find('.label').html label(thumb)
+    const refresh = thumb => {
+      div.find('.readout').text(readout(thumb))
+      div.find('.label').html(label(thumb))
+    }
+  },
+}
 
-summary = (item) ->
-  return "#{item.data.length}x#{item.columns.length}" if item.columns?
-  return "#{item.data.nodes.length}/#{item.data.links.length}" if item.data? && item.data.nodes? && item.data.links?
-  return "1x#{thumbs(item).length}"
-  "data"
+const summary = item => {
+  if (item.columns) {
+    return `${item.data.length}x${item.columns.length}`
+  }
+  if (item.data?.nodes && item.data?.links) return `${item.data.nodes.length}/${item.data.links.length}`
+  return `1x${thumbs(item).length}`
+  // return 'data'   // unreachable!
+}
 
-thumbs = (item) ->
-  return item.columns if item.columns?
-  (key for own key of item.data)
+const thumbs = item => {
+  if (item.columns) {
+    return item.columns
+  }
+  return Object.keys(item.data)
+}
